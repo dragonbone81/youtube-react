@@ -3,7 +3,7 @@ import {decorate, configure, observable, action} from 'mobx'
 configure({enforceActions: "observed"});
 
 class Store {
-    test = 'testing';
+    API_KEY = "AIzaSyDa3twZvyiLDhDQUFu8s-dScTYzp4AnVvY";
     changeTesting = () => {
         this.test = 'yo'
     }
