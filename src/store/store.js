@@ -1,17 +1,24 @@
 import {decorate, configure, observable, action} from 'mobx'
+import {youtubeSearch} from '../api/api'
 
 configure({enforceActions: "observed"});
 
 class Store {
     API_KEY = "AIzaSyDa3twZvyiLDhDQUFu8s-dScTYzp4AnVvY";
-    changeTesting = () => {
-        this.test = 'yo'
-    }
+    querySearchTerm = "";
+    changeQuerySearchTerm = (newTerm) => {
+        this.querySearchTerm = newTerm;
+    };
+    youtubeSearch = () => {
+        if (this.querySearchTerm !== "") {
+            youtubeSearch(this.API_KEY, this.querySearchTerm);
+        }
+    };
 }
 
 decorate(Store, {
-    test: observable,
-    changeTesting: action,
+    querySearchTerm: observable,
+    changeQuerySearchTerm: action,
 });
 
 export default new Store();

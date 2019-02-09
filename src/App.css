@@ -4,10 +4,12 @@
     max-width: 250px;
     /*background-color: greenyellow;*/
 }
-.sidebar-item{
+
+.sidebar-item {
     padding-left: 0;
- }
-.youtube-logo{
+}
+
+.youtube-logo {
     height: 50px;
     margin-right: 10px;
 }
@@ -19,9 +21,19 @@
 html, body {
     height: 100%;
 }
-#root{
+
+#root {
     height: 100%;
 }
-.App{
+
+.App {
     height: 100%;
+}
+.no-glow:focus{
+    outline: none;
+    box-shadow: none;
+}
+.btn:focus, .btn:active, .input-group:focus, .input-group:active {
+    outline: none !important;
+    box-shadow: none;
 }
