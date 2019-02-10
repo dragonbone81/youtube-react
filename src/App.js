@@ -4,6 +4,7 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import Home from './routes/Home';
 import Trending from './routes/Trending';
 import Redirect from './routes/Redirect';
+import VideoPage from './routes/VideoPage';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import './App.css';
@@ -20,6 +21,7 @@ class App extends Component {
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/trending" component={Trending}/>
                             <Route exact path="/redirect" component={Redirect}/>
+                            <Route exact path="/video/:video_id" component={VideoPage}/>
                         </Switch>
                     </div>
                 </div>
