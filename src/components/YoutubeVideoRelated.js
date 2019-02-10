@@ -7,7 +7,7 @@ const YoutubeVideoRelated = ({video, history, changeCurrentVideo}) => {
     };
     return (
         <div className="d-flex flex-row video-top-container mb-3">
-            <div onClick={() => history.push(`/video/${video.id}`)}
+            <div onClick={() => history.push(`/video/${video.id.videoId}`)}
                  style={{backgroundImage: `url("${video.snippet.thumbnails.high.url}")`}}
                  className="align-self-start mr-3 video-image-related"/>
             <div className="d-flex flex-column">
