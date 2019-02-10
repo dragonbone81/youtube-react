@@ -9,28 +9,21 @@ class Trending extends Component {
 
     state = {
         bottom: false,
-        bottomAlreadyReached: false,
-        loadingMoreVideos: false,
     };
 
-    onScroll = ({target}) => {
-        if (
-            (target.scrollHeight - target.scrollTop) <= (target.clientHeight + 100)
-        ) {
-
-            if (!this.state.bottomAlreadyReached && !this.state.loadingMoreVideos) {
-                this.setState({bottom: true, bottomAlreadyReached: true, loadingMoreVideos: true});
-                console.log('reached bottom')
-            }
-        } else {
-            console.log("not yet")
+    onScroll = async ({target}) => {
+        if (((target.scrollHeight - target.scrollTop) <= (target.clientHeight + 1000)) &&
+            (!this.state.bottom) && !this.props.store.reachedEndOfTrending) {
+            this.setState({bottom: true});
+            await this.props.store.getNextTrendingVideos();
+            this.setState({bottom: false})
         }
-    }
+    };
 
     render() {
         return (
             <div onScroll={this.onScroll} className="row trending-content">
-                {this.props.store.trendingVideos.map(video => {
+                {this.props.store.trendingVideosArr.map(video => {
                     return (
                         <div key={video.id} className="col-md-12 col-sm-12 col-lg-12 col-xl-6 mt-3">
                             <YoutubeVideo video={video}/>

@@ -4,11 +4,11 @@ const youtubeSearch = (API_KEY, query, maxResults = 25) => {
         .then(response => response.json())
         .then(response => console.log(response));
 };
-const getTrendingVideos = (access_token) => {
+const getTrendingVideos = (access_token, nextPage = "") => {
     const parts = ["id", "snippet", "statistics"];
-    return fetch(`${BASE_URL}/videos?maxResults=50&part=${encodeURIComponent(parts.join(","))}&chart=mostPopular&regionCode=US`, {headers: {"Authorization": "Bearer " + access_token}})
+    return fetch(`${BASE_URL}/videos?maxResults=50&pageToken=${nextPage}&part=${encodeURIComponent(parts.join(","))}&chart=mostPopular&regionCode=US`, {headers: {"Authorization": "Bearer " + access_token}})
         .then(response => response.json())
-        .then(data => data.items || "ERROR");
+        .then(data => data.items ? data : "ERROR");
 };
 const youtubeGetRecommendedVideos = (API_KEY, query, maxResults = 25) => {
     fetch(`${BASE_URL}/search?part=snippet&maxResults=${maxResults}&q=${query}&key=${API_KEY}`)

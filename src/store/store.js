@@ -9,7 +9,8 @@ class Store {
     REDIRECT_URI = "http://localhost:3000/redirect";
     ACCESS_TOKEN = localStorage.getItem("access_token") || "";
     querySearchTerm = "";
-    trendingVideos = [];
+    trendingVideos = {};
+
 
     get loggedIn() {
         if (this.ACCESS_TOKEN === "") {
@@ -30,20 +31,45 @@ class Store {
             youtubeSearch(this.API_KEY, this.querySearchTerm);
         }
     };
+
+    get trendingVideosArr() {
+        return this.trendingVideos.items || [];
+    }
+
+    get reachedEndOfTrending() {
+        return !this.trendingVideos.nextPageToken;
+    }
+
     getTrendingVideos = () => {
-        getTrendingVideos(this.ACCESS_TOKEN).then(items => {
-            if (items === "ERROR") {
+        getTrendingVideos(this.ACCESS_TOKEN).then(data => {
+            if (data === "ERROR") {
                 runInAction(() => {
                     this.ACCESS_TOKEN = "";
                 });
             } else {
                 runInAction(() => {
-                    this.trendingVideos = items
+                    this.trendingVideos = data
                 });
             }
         })
     };
-
+    getNextTrendingVideos = () => {
+        if (!this.reachedEndOfTrending) {
+            return getTrendingVideos(this.ACCESS_TOKEN, this.trendingVideos.nextPageToken).then(data => {
+                if (data === "ERROR") {
+                    runInAction(() => {
+                        this.ACCESS_TOKEN = "";
+                    });
+                } else {
+                    runInAction(() => {
+                        this.trendingVideos = {...data, items: [...this.trendingVideos.items, ...data.items]}
+                    });
+                }
+            })
+        } else {
+            return Promise.resolve();
+        }
+    };
     loginRedirect = () => {
         const scopes = ["https://www.googleapis.com/auth/youtube.readonly"];
         window.location = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${this.CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&scope=${encodeURIComponent(scopes.join(" "))}`;
@@ -57,6 +83,8 @@ decorate(Store, {
     changeQuerySearchTerm: action,
     setAccessToken: action,
     loggedIn: computed,
+    trendingVideosArr: computed,
+    reachedEndOfTrending: computed,
 });
 
 export default new
