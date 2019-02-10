@@ -6,7 +6,7 @@ configure({enforceActions: "observed"});
 class Store {
     API_KEY = "AIzaSyDa3twZvyiLDhDQUFu8s-dScTYzp4AnVvY";
     CLIENT_ID = "63361130758-e6qssvaffdc7ohhmin7lhmss4vfd6gga.apps.googleusercontent.com";
-    REDIRECT_URI = "http://localhost:3000/redirect";
+    REDIRECT_URI = process.env.REACT_APP_REDIRECT_URL ||"http://localhost:3000/redirect";
     ACCESS_TOKEN = localStorage.getItem("access_token") || "";
     querySearchTerm = "";
     trendingVideos = {};

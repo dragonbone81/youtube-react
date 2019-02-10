@@ -80,7 +80,7 @@ class VideoPage extends Component {
                     </div>
                     < div className="col-md-12 col-sm-12 col-lg-6 col-xl-5 scrolling">
                         {this.props.store.relatedVideos.map(video =>
-                            <YoutubeVideoRelated video={video}
+                            <YoutubeVideoRelated key={video.id.videoId} video={video}
                                                  changeCurrentVideo={this.props.store.changeCurrentVideo}/>
                         )}
                     </div>
