@@ -45,6 +45,21 @@ a {
     font-size: 17px;
 }
 
+.comment-author-image {
+    border-radius: 5px;
+    min-width: 50px;
+    min-height: 50px;
+    box-shadow: 0 0 5px rgba(101, 101, 101, 0.3);
+    background-size: cover !important;
+    background-position: 50%;
+}
+
+.comment-author-name{
+    font-size: 15px;
+}
+.comment-text{
+    font-size: 13px;
+}
 .channel-image {
     border-radius: 50%;
     min-width: 80px;
@@ -65,7 +80,8 @@ a {
     right: 50%;
     font-size: 35px;
 }
-.video-description-retract{
+
+.video-description-retract {
     position: absolute;
     bottom: -10px;
     cursor: pointer;

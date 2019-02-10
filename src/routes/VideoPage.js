@@ -67,17 +67,16 @@ class VideoPage extends Component {
                             {this.state.descriptionLength === 150 ?
                                 <span>{this.props.store.currentVideo.snippet.description.split("\n\n")[0]}</span>
                                 :
-                                this.props.store.currentVideo.snippet.description.split("\n\n").map(line => {
-                                    return (<span>{line}<br/><br/></span>)
+                                this.props.store.currentVideo.snippet.description.split("\n\n").map((line, i) => {
+                                    return (<span key={i}>{line}<br/><br/></span>)
                                 })
                             }
                             <i onClick={() => this.setState({descriptionLength: this.state.descriptionLength !== 0 ? 0 : 150})}
                                className={`fas ${this.state.descriptionLength === 0 ? "fa-caret-up video-description-retract" : "fa-caret-down video-description-expand"}`}/>
                         </div>
                         {this.props.store.comments.map(comment =>
-                            {/*<Comments comment={comment}/>*/}
-                        )
-                        }
+                            <Comments key={comment.id} comment={comment}/>
+                        )}
                     </div>
                     < div className="col-md-12 col-sm-12 col-lg-6 col-xl-5 scrolling">
                         {this.props.store.relatedVideos.map(video =>
