@@ -63,18 +63,18 @@ class Store {
         })
     };
     getRelatedVideos = (videoID) => {
-        // getRelatedVideos(this.ACCESS_TOKEN, videoID).then(data => {
-        //     if (data === "ERROR") {
-        //         runInAction(() => {
-        //             this.ACCESS_TOKEN = "";
-        //         });
-        //     }
-        //     else {
-        //         runInAction(() => {
-        //             this.relatedVideos = data;
-        //         });
-        //     }
-        // })
+        getRelatedVideos(this.ACCESS_TOKEN, videoID).then(data => {
+            if (data === "ERROR") {
+                runInAction(() => {
+                    this.ACCESS_TOKEN = "";
+                });
+            }
+            else {
+                runInAction(() => {
+                    this.relatedVideos = data;
+                });
+            }
+        })
     };
     getCurrentChannelInfo = (channelID) => {
         getChannelInfo(this.ACCESS_TOKEN, channelID).then(data => {
