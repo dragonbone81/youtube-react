@@ -7,7 +7,17 @@
     will-change: transform;
     /*background-color: greenyellow;*/
 }
-
+.main-content{
+    overflow-y: auto;
+    will-change: transform;
+}
+.login-text{
+    color: #275ac6;
+    cursor: pointer;
+}
+.login-text:hover{
+    color: #3985ff;
+}
 .sidebar-item {
     cursor: pointer;
 }
@@ -21,7 +31,7 @@
 }
 
 .main-content {
-    background-color: aquamarine;
+    /*background-color: aquamarine;*/
 }
 .sidebar-icon-text{
     margin-left: 20px;
