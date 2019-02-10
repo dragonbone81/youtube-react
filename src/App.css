@@ -18,9 +18,6 @@
     max-height: 100%;
     will-change: transform;
 }
-.fa-spinner{
-    font-size: 300px;
-}
 .main-content {
     overflow-y: hidden;
     margin-bottom: 20px;

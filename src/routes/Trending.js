@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
 import YoutubeVideo from '../components/YoutubeVideo';
+import {withRouter} from 'react-router-dom';
+
 
 class Trending extends Component {
     componentDidMount() {
@@ -35,4 +37,4 @@ class Trending extends Component {
     }
 }
 
-export default inject("store")(observer(Trending));
+export default withRouter(inject("store")(observer(Trending)));

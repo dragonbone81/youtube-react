@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
+import {withRouter} from 'react-router-dom';
 
 class Home extends Component {
     componentDidMount() {
@@ -15,4 +16,4 @@ class Home extends Component {
     }
 }
 
-export default inject("store")(observer(Home));
+export default withRouter(inject("store")(observer(Home)));

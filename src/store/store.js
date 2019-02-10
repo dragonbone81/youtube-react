@@ -87,6 +87,4 @@ decorate(Store, {
     reachedEndOfTrending: computed,
 });
 
-export default new
-
-Store();
+export default new Store();

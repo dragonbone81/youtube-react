@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import Home from './routes/Home';
 import Trending from './routes/Trending';
 import Redirect from './routes/Redirect';
@@ -28,4 +28,4 @@ class App extends Component {
     }
 }
 
-export default inject("store")(observer(App));
+export default withRouter(inject("store")(observer(App)));

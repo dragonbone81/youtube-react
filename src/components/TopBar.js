@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
 import youtubeLogo from '../youtube-logo.svg';
+import {withRouter} from 'react-router-dom';
 
 class Sidebar extends Component {
     _handleKeyPress = ({key}) => {
@@ -40,4 +41,4 @@ class Sidebar extends Component {
     }
 }
 
-export default inject("store")(observer(Sidebar));
+export default withRouter(inject("store")(observer(Sidebar)));
