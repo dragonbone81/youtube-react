@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
+import YoutubeVideo from '../components/YoutubeVideo';
 
 class Trending extends Component {
     componentDidMount() {
@@ -11,7 +12,9 @@ class Trending extends Component {
             <div className="row">
                 {this.props.store.trendingVideos.map(video => {
                     return (
-                        <div className="col-md-12 col-sm-12 col-lg-6">{video.id}</div>
+                        <div className="col-md-12 col-sm-12 col-lg-6">
+                            <YoutubeVideo video={video}/>
+                        </div>
                     )
                 })}
             </div>

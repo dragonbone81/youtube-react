@@ -7,21 +7,25 @@
     will-change: transform;
     /*background-color: greenyellow;*/
 }
-.main-content{
+.main-content {
     overflow-y: auto;
     will-change: transform;
 }
-.login-text{
+
+.login-text {
     color: #275ac6;
     cursor: pointer;
 }
-.login-text:hover{
+
+.login-text:hover {
     color: #3985ff;
 }
+
 .sidebar-item {
     cursor: pointer;
 }
-.sidebar-item:hover{
+
+.sidebar-item:hover {
     background-color: gainsboro;
 }
 
@@ -33,9 +37,11 @@
 .main-content {
     /*background-color: aquamarine;*/
 }
-.sidebar-icon-text{
+
+.sidebar-icon-text {
     margin-left: 20px;
 }
+
 html, body {
     height: 100%;
 }
@@ -47,10 +53,12 @@ html, body {
 .App {
     height: 100%;
 }
-.no-glow:focus{
+
+.no-glow:focus {
     outline: none;
     box-shadow: none;
 }
+
 .btn:focus, .btn:active, .input-group:focus, .input-group:active {
     outline: none !important;
     box-shadow: none;
