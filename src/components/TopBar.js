@@ -12,12 +12,12 @@ class Sidebar extends Component {
 
     render() {
         return (
-            <div className="row justify-content-center sticky-top">
-                <div className="col d-flex align-items-center">
+            <div className="d-flex sticky-top">
+                <div className="d-flex align-items-center mr-4">
                     <div><img className="youtube-logo" src={youtubeLogo}/></div>
                     <div><h3 className="my-auto">Youtube</h3></div>
                 </div>
-                <div className="col-6 d-flex align-items-center">
+                <div className="input-box-search d-flex ml-5 mr-5 flex-grow-1 align-items-center justify-content-start">
                     <div className="input-group">
                         <input className="form-control no-glow"
                                onKeyPress={this._handleKeyPress}
@@ -30,7 +30,7 @@ class Sidebar extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col d-flex align-items-center justify-content-end">
+                <div className="d-flex ml-auto align-items-center justify-content-end">
                     {!this.props.store.loggedIn && <div onClick={this.props.store.loginRedirect} className="login-text">
                         <h5 className="my-auto">Login</h5>
                     </div>}
