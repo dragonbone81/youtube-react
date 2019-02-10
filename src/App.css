@@ -2,6 +2,7 @@
     /*flex: 0 0 250px;*/
     overflow-y: auto;
     max-width: 250px;
+    /*min-width: 250px;*/
     padding-left: 0;
     padding-right: 0;
     will-change: transform;
@@ -12,9 +13,14 @@
     background-size: cover !important;
     background-position: 50%;
 }
-.main-content {
-    overflow-y: auto;
+.trending-content{
+    overflow-y: scroll;
+    max-height: 100%;
     will-change: transform;
+}
+.main-content {
+    overflow-y: hidden;
+    margin-bottom: 20px;
 }
 
 .login-text {
@@ -37,10 +43,6 @@
 .youtube-logo {
     height: 50px;
     margin-right: 10px;
-}
-
-.main-content {
-    /*background-color: aquamarine;*/
 }
 
 .sidebar-icon-text {

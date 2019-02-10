@@ -5,7 +5,7 @@ const youtubeSearch = (API_KEY, query, maxResults = 25) => {
         .then(response => console.log(response));
 };
 const getTrendingVideos = (access_token) => {
-    const parts = ["id", "snippet"];
+    const parts = ["id", "snippet", "statistics"];
     return fetch(`${BASE_URL}/videos?maxResults=50&part=${encodeURIComponent(parts.join(","))}&chart=mostPopular&regionCode=US`, {headers: {"Authorization": "Bearer " + access_token}})
         .then(response => response.json())
         .then(data => data.items || "ERROR");
