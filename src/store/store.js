@@ -1,5 +1,5 @@
 import {decorate, configure, observable, action, computed, runInAction} from 'mobx'
-import {youtubeSearch, getTrendingVideos, getVideoInfo, getChannelInfo} from '../api/api'
+import {youtubeSearch, getTrendingVideos, getVideoInfo, getChannelInfo, getRelatedVideos, getComments} from '../api/api'
 
 configure({enforceActions: "observed"});
 
@@ -11,7 +11,9 @@ class Store {
     querySearchTerm = "";
     trendingVideos = {};
     currentVideo = {};
-    currentChannelInfo = {}
+    currentChannelInfo = {};
+    relatedVideos = [];
+    comments = [];
 
 
     get loggedIn() {
@@ -46,6 +48,34 @@ class Store {
         return !this.trendingVideos.nextPageToken;
     }
 
+    getComments = (videoID) => {
+        getComments(this.ACCESS_TOKEN, videoID).then(data => {
+            if (data === "ERROR") {
+                runInAction(() => {
+                    this.ACCESS_TOKEN = "";
+                });
+            }
+            else {
+                runInAction(() => {
+                    this.comments = data;
+                });
+            }
+        })
+    };
+    getRelatedVideos = (videoID) => {
+        // getRelatedVideos(this.ACCESS_TOKEN, videoID).then(data => {
+        //     if (data === "ERROR") {
+        //         runInAction(() => {
+        //             this.ACCESS_TOKEN = "";
+        //         });
+        //     }
+        //     else {
+        //         runInAction(() => {
+        //             this.relatedVideos = data;
+        //         });
+        //     }
+        // })
+    };
     getCurrentChannelInfo = (channelID) => {
         getChannelInfo(this.ACCESS_TOKEN, channelID).then(data => {
             if (data === "ERROR") {
@@ -62,6 +92,30 @@ class Store {
             }
         })
     };
+    resetCurrentVideo = () => {
+        this.currentChannelInfo = {};
+        this.currentVideo = {};
+        this.relatedVideos = [];
+    };
+    changeCurrentVideo = (videoID) => {
+        getVideoInfo(this.ACCESS_TOKEN, videoID).then(data => {
+            if (data === "ERROR") {
+                runInAction(() => {
+                    this.ACCESS_TOKEN = "";
+                });
+            } else if (data === "ERROR_LENGTH") {
+                console.warn("videoID", data);
+            }
+            else {
+                this.getCurrentChannelInfo(data.snippet.channelId);
+                runInAction(() => {
+                    this.currentVideo = data;
+                });
+            }
+        });
+        this.getRelatedVideos(videoID);
+        this.getComments(videoID);
+    };
     getCurrentVideo = (videoID) => {
         getVideoInfo(this.ACCESS_TOKEN, videoID).then(data => {
             if (data === "ERROR") {
@@ -77,7 +131,9 @@ class Store {
                     this.currentVideo = data;
                 });
             }
-        })
+        });
+        this.getRelatedVideos(videoID);
+        this.getComments(videoID);
     };
     getTrendingVideos = () => {
         getTrendingVideos(this.ACCESS_TOKEN).then(data => {
@@ -110,7 +166,7 @@ class Store {
         }
     };
     loginRedirect = () => {
-        const scopes = ["https://www.googleapis.com/auth/youtube.readonly"];
+        const scopes = ["https://www.googleapis.com/auth/youtube.readonly", "https://www.googleapis.com/auth/youtube.force-ssl"];
         window.location = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${this.CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&scope=${encodeURIComponent(scopes.join(" "))}`;
     }
 }
@@ -120,9 +176,12 @@ decorate(Store, {
     ACCESS_TOKEN: observable,
     trendingVideos: observable,
     currentVideo: observable,
+    comments: observable,
     currentChannelInfo: observable,
+    relatedVideos: observable,
     changeQuerySearchTerm: action,
     setAccessToken: action,
+    resetCurrentVideo: action,
     loggedIn: computed,
     trendingVideosArr: computed,
     reachedEndOfTrending: computed,

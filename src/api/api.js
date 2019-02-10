@@ -10,6 +10,18 @@ const getTrendingVideos = (access_token, nextPage = "") => {
         .then(response => response.json())
         .then(data => data.items ? data : "ERROR");
 };
+const getComments = (access_token, videoID) => {
+    const parts = ["id", "snippet"];
+    return fetch(`${BASE_URL}/commentThreads?maxResults=50&order=relevance&videoId=${videoID}&part=${encodeURIComponent(parts.join(","))}`, {headers: {"Authorization": "Bearer " + access_token}})
+        .then(response => response.json())
+        .then(data => data.items ? data.items : "ERROR");
+};
+const getRelatedVideos = (access_token, videoID) => {
+    const parts = ["snippet"];
+    return fetch(`${BASE_URL}/search?part=snippet&type=video&maxResults=50&relatedToVideoId=${videoID}&part=${encodeURIComponent(parts.join(","))}&chart=mostPopular&regionCode=US`, {headers: {"Authorization": "Bearer " + access_token}})
+        .then(response => response.json())
+        .then(data => data.items ? data.items : "ERROR");
+};
 const getVideoInfo = (access_token, videoID) => {
     const parts = ["id", "snippet", "statistics"];
     return fetch(`${BASE_URL}/videos?part=${encodeURIComponent(parts.join(","))}&id=${videoID}`, {headers: {"Authorization": "Bearer " + access_token}})
@@ -42,4 +54,4 @@ const youtubeGetRecommendedVideos = (API_KEY, query, maxResults = 25) => {
         .then(response => console.log(response));
 };
 
-export {youtubeSearch, getTrendingVideos, getVideoInfo, getChannelInfo}
+export {youtubeSearch, getTrendingVideos, getVideoInfo, getChannelInfo, getRelatedVideos, getComments}

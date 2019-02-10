@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
+import YoutubeVideoRelated from '../components/YoutubeVideoRelated';
+import Comments from '../components/Comments';
 
 class VideoPage extends Component {
     componentDidMount() {
@@ -9,23 +11,30 @@ class VideoPage extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.store.resetCurrentVideo();
+    }
+
     numberWithCommas = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     BASE_EMBED_URL = 'https://www.youtube.com/embed';
+    state = {
+        descriptionLength: 150,
+    };
 
     render() {
         return (
-            <div>
+            <div className="video-page">
                 {this.props.store.currentVideoExists &&
-                <div className="row">
-                    <div className="col-md-12 col-sm-12 col-lg-8 d-flex flex-column border-bottom pb-1">
+                <div className="row video-page-row">
+                    <div className="col-md-12 col-sm-12 col-lg-6 col-xl-7 d-flex flex-column">
                         <div className="i-frame-video-div embed-responsive embed-responsive-16by9">
                             <iframe allowFullScreen title='video'
                                     src={`${this.BASE_EMBED_URL}/${this.props.store.currentVideo.id}`}/>
                         </div>
                         <h5 className="video-description mt-2">{this.props.store.currentVideo.snippet.title}</h5>
-                        <div className="d-flex">
+                        <div className="d-flex border-bottom pb-1 mb-3">
                             <div
                                 style={{backgroundImage: `url("${!!this.props.store.currentChannelInfo.id ? this.props.store.currentChannelInfo.snippet.thumbnails.medium.url : "https://womenaccelerators.org/wp-content/uploads/2018/03/default-profile.png"}")`}}
                                 className="align-self-start mr-3 channel-image"/>
@@ -44,18 +53,38 @@ class VideoPage extends Component {
                                 </div>
                                 <div className="video-like-dislike d-flex justify-content-between mt-2">
                                     <div className="d-flex justify-content-start align-items-center">
-                                        <i className="fas fa-thumbs-up mr-2"/>
+                                        <i className="fas fa-thumbs-up mr-1"/>
                                         <span>{this.numberWithCommas(Number(this.props.store.currentVideo.statistics.likeCount))}</span>
                                     </div>
                                     <div className="d-flex justify-content-start align-items-center">
-                                        <i className="fas fa-thumbs-down mr-2"/>
+                                        <i className="fas fa-thumbs-down mr-1"/>
                                         <span>{this.numberWithCommas(Number(this.props.store.currentVideo.statistics.dislikeCount))}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="d-flex flex-column border-bottom mb-5 video-description">
+                            {this.state.descriptionLength === 150 ?
+                                <span>{this.props.store.currentVideo.snippet.description.split("\n\n")[0]}</span>
+                                :
+                                this.props.store.currentVideo.snippet.description.split("\n\n").map(line => {
+                                    return (<span>{line}<br/><br/></span>)
+                                })
+                            }
+                            <i onClick={() => this.setState({descriptionLength: this.state.descriptionLength !== 0 ? 0 : 150})}
+                               className={`fas ${this.state.descriptionLength === 0 ? "fa-caret-up video-description-retract" : "fa-caret-down video-description-expand"}`}/>
+                        </div>
+                        {this.props.store.comments.map(comment =>
+                            {/*<Comments comment={comment}/>*/}
+                        )
+                        }
                     </div>
-                    < div className="col-md-4">what</div>
+                    < div className="col-md-12 col-sm-12 col-lg-6 col-xl-5 scrolling">
+                        {this.props.store.relatedVideos.map(video =>
+                            <YoutubeVideoRelated video={video}
+                                                 changeCurrentVideo={this.props.store.changeCurrentVideo}/>
+                        )}
+                    </div>
                 </div>
                 }
             </div>

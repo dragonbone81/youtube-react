@@ -6,7 +6,9 @@ import {withRouter} from 'react-router-dom';
 
 class Trending extends Component {
     componentDidMount() {
-        this.props.store.getTrendingVideos();
+        if (this.props.store.trendingVideosArr.length === 0) {
+            this.props.store.getTrendingVideos();
+        }
     }
 
     state = {
